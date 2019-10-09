@@ -1,0 +1,48 @@
+* Alfabeto
+l,d,+,<,>,=
+* Estados
+0,1,2,3,4,5,6,7,8,9,10,11,12,13
+* Retrocesos
+0,0,1,0,1,0,0,1,0,0,1,0,0,1
+* Tokens
+-,-,ID,-,NumEntPos,-,Inc,Suma,-,MenorIgual,MenorQue,-,MayorIgual,MayorQue
+* Estados inicial
+0
+* Estados finales
+2,4,6,7,9,10,12,13
+* Funciones de transicion
+0 l,1
+0 d,3
+0 +,5
+0 <,8
+0 >,11
+1 l,1
+1 d,1
+1 +,2
+1 <,2
+1 >,2
+1 =,2
+3 d,3
+3 l,4
+3 +,4
+3 <,4
+3 >,4
+3 =,4
+5 d,3
+5 +,6
+5 l,7
+5 <,7
+5 >,7
+5 =,7
+8 =,9
+8 l,10
+8 d,10
+8 +,10
+8 <,10
+8 >,10
+11 =,12
+11 l,13
+11 d,13
+11 +,13
+11 <,13
+11 >,13
