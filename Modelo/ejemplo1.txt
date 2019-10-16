@@ -1,6 +1,17 @@
+      +  !
+10+1
+    	
 @ 	++
 + abc345
-<= 	<
+abc 123
+-2.65 -5 +1
 abc@
-+++3ab48
-<=
+a = 4	a 		== b
+5+3
+7 + 4
+++ ab 48
+!	!<	
+if while
+for321 	for
+repeat
+until

@@ -7,19 +7,17 @@ import java.util.ArrayList;
 
 public class AutomataTest {
     public static void main(String[] args) {
-        Automata automata = new Automata(12);
+        Automata automata = new Automata(14);
         boolean ban_archivo;
         try {
             ban_archivo = automata.leerAutomata("FORMATO_DT.txt");
             if (ban_archivo) {
                 String cadena = "", aux;
-                BufferedReader b = new BufferedReader(new FileReader("ejemplo1.txt"));
+                BufferedReader b = new BufferedReader(new FileReader("ejemplo2.txt"));
         
                 while ((aux = b.readLine()) != null) {
                     cadena += aux + "\n";
                 }
-                cadena = cadena.replace(" ", "");
-                cadena = cadena.replace("\t", "");
                 ArrayList<Token> tokens = automata.comprobarArchivo(cadena);
                 
                 for (int i = 0; i < tokens.size(); i++) {

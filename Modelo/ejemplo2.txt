@@ -1,0 +1,10 @@
+if a == b	c + 3
+
+repeat
+	i = i + 1
+	b = -2.5 + i
+	c=3+i
+	d =b+c
+until d < +50
+while ban
+	c = -3

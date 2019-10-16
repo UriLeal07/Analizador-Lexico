@@ -13,6 +13,7 @@ public class Automata {
     String[] tipos_tokens;
     int estado_inicial;
     int[] estados_finales;
+    String[] palabras_reservadas;
     int[][] matriz_T;
     int limite;
     
@@ -63,6 +64,10 @@ public class Automata {
                         estados_finales[i] = Integer.parseInt(aux[i]);
                     }
                     break;
+                case 14:
+                    aux = cadena.split(",");
+                    palabras_reservadas = aux;
+                    break;
             }
         }
         
@@ -78,7 +83,7 @@ public class Automata {
             }
             while ((cadena = b.readLine()) != null) {
                 String[] aux = cadena.split(",");
-                String[] tmp = aux[0].split(" ");
+                String[] tmp = aux[0].split("/");
                 int col = -1;
                 boolean ban = false;
                 int i = 0;
@@ -127,11 +132,124 @@ public class Automata {
     
     public ArrayList<Token> comprobarArchivo(String cadena) {
         ArrayList<Token> tokens = new ArrayList<>();
-        String[] cadenas = cadena.split("\n");
-        
+        // limpiar cadena
+        cadena = cadena.replaceAll("\t", " ");
+        String aux = "";
         int i = 0;
-        int estado_actual = 0;
+        while (i < cadena.length()) {
+            if (cadena.charAt(i) != ' ') {
+                aux += cadena.charAt(i);
+                i++;
+            } else {
+                aux += cadena.charAt(i);
+                do {
+                    i++;
+                } while (cadena.charAt(i) == ' ');
+            }
+        }
+        cadena = aux + " ";
+        char[] buffer = cadena.toCharArray();
+        
+        int estado_actual = estado_inicial;
+        int numLinea = 0;
         String lexema = "";
+        int apuntador = 0;
+        while (apuntador < buffer.length) {
+            char temp = buffer[apuntador];
+            
+            // si es salto de línea
+            if (temp == '\n') {
+                numLinea++;
+                temp = ' ';
+                
+            } 
+            if (Character.isLetter(temp)) {
+                temp = 'l';
+            } else if (Character.isDigit(temp)) {
+                temp = 'd';
+            }
+
+            int j = 0;
+            boolean ban = false;
+            while (j < alfabeto.length && !ban) {
+                if (alfabeto[j].equals(String.valueOf(temp))) {
+                    if (matriz_T[estado_actual][j] != -1) {
+                        estado_actual = matriz_T[estado_actual][j];
+                        ban = true;
+                    }
+                }
+                j++;
+            }
+
+            // si no se encontró transición
+            if (!ban) {
+                if (temp != ' ') {
+                    lexema += temp;
+                    Token t = new Token();
+                    t.setLexema(lexema);
+                    t.setNumLinea(numLinea + 1);
+                    t.setTipoToken("?");
+                    tokens.add(t);
+
+                    // se limpia lexema
+                    lexema = "";
+                    estado_actual = estado_inicial;
+                }
+                apuntador++;
+            } else {
+                // se comprueba si llegó a un estado final
+                j = 0;
+                ban = false;
+                while (j < estados_finales.length && !ban) {
+                    if (estados_finales[j] == estado_actual) {
+                        ban = true;
+                    }
+                    j++;
+                }
+
+                // si es estado final
+                if (ban) {
+                    // si es un estado final sin retroceso, se puede agregar el caracter en el lexema
+                    if (retrocesos[estado_actual] == 0) {
+                        lexema += buffer[apuntador];
+                    }
+
+                    Token t = new Token();
+                    j = 0;
+                    ban = false;
+                    while (j < palabras_reservadas.length && !ban) {
+                        if (lexema.equals(palabras_reservadas[j])) {
+                            ban = true;
+                        }
+                        j++;
+                    }
+                    t.setLexema(lexema);
+                    t.setNumLinea(numLinea + 1);
+                    // si es palabra reservada
+                    if (ban) {
+                        t.setTipoToken("palabraReservada");
+                    } else {
+                        t.setTipoToken(tipos_tokens[estado_actual]);
+                    }
+                    tokens.add(t);
+
+                    apuntador++;
+                    // actualizar el apuntador
+                    if (apuntador > 0 && buffer[apuntador - 1] != '\n') {
+                        apuntador = apuntador - retrocesos[estado_actual];
+                    }
+                    lexema = "";
+                    estado_actual = estado_inicial;
+                } else {
+                    lexema += buffer[apuntador];
+                    apuntador++;
+                }
+            }
+        }
+        
+        /* cadena = cadena.trim();
+        String[] cadenas = cadena.split("\n");        
+        int i = 0;
         while (i < cadenas.length) {
             int j = 0;
             while (j < cadenas[i].length()) {
@@ -208,7 +326,7 @@ public class Automata {
                 }  
             }
             i++;
-        }
+        } */
         
         return tokens;
     }
