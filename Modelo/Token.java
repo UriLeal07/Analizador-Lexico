@@ -1,4 +1,4 @@
-package automatatest;
+package Modelo;
 
 public class Token {
     private String tipoToken;

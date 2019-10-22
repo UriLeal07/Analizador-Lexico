@@ -24,6 +24,7 @@ public class MainFrame extends javax.swing.JFrame
     private final JFileChooser selectorDeArchivo;
     private final Control control;
     private File dirActual;
+    private File dirExpresion;
     private long loggerEventID;
     private AboutFrame frmAbout;
     
@@ -46,6 +47,7 @@ public class MainFrame extends javax.swing.JFrame
         selectorDeArchivo.setMultiSelectionEnabled(false);
         
         dirActual = null;
+        dirExpresion = null;
         
         loggerEventID = 0;
         
@@ -70,6 +72,7 @@ public class MainFrame extends javax.swing.JFrame
         jButton2 = new javax.swing.JButton();
         panelInput = new javax.swing.JScrollPane();
         txtInput = new javax.swing.JTextArea();
+        jButton3 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         mArchivo = new javax.swing.JMenu();
         mItemNuevo = new javax.swing.JMenuItem();
@@ -83,7 +86,7 @@ public class MainFrame extends javax.swing.JFrame
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        panelEditor.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Editor", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        panelEditor.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Automata", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
 
         txtEditor.setColumns(20);
         txtEditor.setFont(new java.awt.Font("Consolas", 0, 13)); // NOI18N
@@ -137,12 +140,21 @@ public class MainFrame extends javax.swing.JFrame
             }
         });
 
-        panelInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cadena", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        panelInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Expresion", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
 
         txtInput.setColumns(20);
         txtInput.setFont(new java.awt.Font("Consolas", 0, 13)); // NOI18N
         txtInput.setRows(5);
         panelInput.setViewportView(txtInput);
+
+        jButton3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/String-Check.png"))); // NOI18N
+        jButton3.setText("Cargar expresion");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         mArchivo.setText("Archivo");
 
@@ -217,14 +229,16 @@ public class MainFrame extends javax.swing.JFrame
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tbPaneActividad, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
+                    .addComponent(tbPaneActividad, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)
                     .addComponent(panelEditor)
+                    .addComponent(panelInput)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton2)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(panelInput))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton3)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -233,13 +247,14 @@ public class MainFrame extends javax.swing.JFrame
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(panelInput, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelEditor, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tbPaneActividad, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                .addComponent(panelInput, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tbPaneActividad, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                 .addGap(7, 7, 7))
         );
 
@@ -275,7 +290,7 @@ public class MainFrame extends javax.swing.JFrame
 
     private void mItemAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mItemAbrirActionPerformed
 
-        openFile();
+        openFile(1);
         
     }//GEN-LAST:event_mItemAbrirActionPerformed
 
@@ -296,23 +311,23 @@ public class MainFrame extends javax.swing.JFrame
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
-        openFile();
+        openFile(1);
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         
-        if(dirActual != null)
+        if(dirActual != null && dirExpresion != null)
         {
             if(!txtInput.getText().isEmpty())
             {
-                txtLogger.append((++loggerEventID)+".- Analizando archivo \""+dirActual.getName()+"\"...\n");
-                control.start(dirActual.getAbsolutePath());
+                txtLogger.append((++loggerEventID)+".- Iniciando analisis \""+dirActual.getName()+"\"...\n");
+                control.start(dirActual.getAbsolutePath(), txtInput.getText());
             }
             
             else
                 JOptionPane.showMessageDialog(null,
-                                          "Ingrese una cadena para analizarla",
+                                          "Ingrese una expresion para analizarla",
                                           "Campo cadena vacío", JOptionPane.ERROR_MESSAGE);
         }
         else
@@ -321,8 +336,14 @@ public class MainFrame extends javax.swing.JFrame
                                           "Reglas no establecidas", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
     
-    private void openFile()
+        openFile(2);
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    
+    private void openFile(int id)
     {
         selectorDeArchivo.setDialogType(JFileChooser.OPEN_DIALOG);
         int res = selectorDeArchivo.showOpenDialog(MainFrame.this);
@@ -341,15 +362,26 @@ public class MainFrame extends javax.swing.JFrame
                     while ((line = reader.readLine()) != null)
                         texto += line+"\n";
                     
-                    // Guardamos referencia al archivo cargado en programa
-                    dirActual = archivo;
-                    // Ponemos el noombre en el marco del editor
-                    panelEditor.setBorder(BorderFactory.createTitledBorder("\""+archivo.getName()+"\""));
                     // Limpiamos editores y salida de texto
                     clearWorkspace();
+                    // Guardamos referencia al archivo cargado en programa
+                    if(id == 1)
+                    {
+                        dirActual = archivo;
+                        
+                        // Ponemos el noombre en el marco del editor
+                        panelEditor.setBorder(BorderFactory.createTitledBorder("\""+archivo.getName()+"\""));
+                        txtEditor.setText(texto);
+                    }
+                    else
+                    {
+                        dirExpresion = archivo;
+                        
+                        // Ponemos el noombre en el marco del text Area Expresion
+                        panelInput.setBorder(BorderFactory.createTitledBorder("\""+archivo.getName()+"\""));
+                        txtInput.setText(texto);
+                    }
                     
-                    txtEditor.setText("");
-                    txtEditor.setText(texto);
                     txtLogger.append((++loggerEventID)+".- Lectura de archivo \""+archivo.getName()+"\"\n");
                     
                     JOptionPane.showMessageDialog(null,
@@ -458,6 +490,7 @@ public class MainFrame extends javax.swing.JFrame
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
